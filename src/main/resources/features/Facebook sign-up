@@ -1,0 +1,99 @@
+Feature: Facebook sign up page
+
+#Scenario: Verify user wants to Sign-up facebook using mobile number
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enter firstName as "Test" and lastName as "Automation"
+Then user enter mobileNumber as "0123456789"
+And user create new password for facebook as "*******"
+And user choose DateOfBirth as "22.04.1991" and Gender as "male"
+When user clicks sign-up button
+Then user redirected to mobile number verification page
+
+#Scenario: Verify user wants to Sign-up facebook using email address
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enter firstName as "Test" and lastName as "Automation"
+Then user enter email address as "test@gmail.com"
+Then user enter confirm mail address as "test@gmail.com"
+And user create new password for facebook as "*******"
+And user choose DateOfBirth as "22.04.1991" and Gender as "male"
+When user clicks sign-up button
+Then user redirected to email verification page
+
+#Scenario: Verify if error message displayed for all fields
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+When user clicks sign-up button
+Then user should see error message for all fields
+
+#Scenario: Verify if error message displayed for all fields
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+When user clicks sign-up button
+Then user should see error message for all fields
+
+
+#Scenario Outline: Verify if error message displayed for mobile number field
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+When user enters incorrect mobile number format
+Then user should see error message mobile number field
+
+#Scenario Outline: Verify if error message displayed for email field
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enters valid email in email address field
+And user enters incorrect email in confirm email address field
+Then user should see error message for email field
+
+#Scenario Outline: Verify if user not able to sign up for incorrect date of birth
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enter firstName as "Test" and lastName as "Automation"
+Then user enter mobileNumber as "0123456789"
+And user create new password for facebook as "*******"
+And user choose DateOfBirth as below 13 years old and Gender as "male"
+When user clicks sign-up button
+Then user redirected to sign up page with message "You are ineligible to register for Facebook."
+And check if new field - Age appears with dateofBirth link
+
+#Scenario Outline: Verify if tries to submit sign up page without entering DOB alone
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enter firstName as "Test" and lastName as "Automation"
+Then user enter mobileNumber as "0123456789"
+And user create new password for facebook as "*******"
+And user choose Gender as "male"
+When user clicks sign-up button
+Then user should see error message for DOB field
+
+#Scenario Outline: Verify if tries to submit sign up page without Gender
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enter firstName as "Test" and lastName as "Automation"
+Then user enter mobileNumber as "0123456789"
+And user create new password for facebook as "*******"
+And user choose Gender as "male"
+When user clicks sign-up button
+Then user should see error message for Gender field
+
+
+#Scenario Outline: Verify if tries to submit sign up with incorrect password
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enter firstName as "Test" and lastName as "Automation"
+Then user enter mobileNumber as "0123456789"
+And user enters incorrect password
+When user clicks sign-up button
+Then user should see error message for password field
+
+#Scenario Outline: Verify if tries to submit sign up with custom gender option
+
+Given the facebook sign up page - "https://www.facebook.com/signup"
+And user enter firstName as "Test" and lastName as "Automation"
+Then user enter mobileNumber as "0123456789"
+And user create new password for facebook as "*******"
+And user choose DateOfBirth as "22.04.1991" and Gender as "custom"
+When user selects pronouns from drop down
+Then user redirected to mobile number verification page
